@@ -28,8 +28,8 @@ Public Sub ApplyToColumn(firstCellInColumn As Range)
     
     CellValidation.RestrictToDateRange _
         Utility.ColumnRange(firstCellInColumn), _
-        startDate:=MustBeAfter, _
-        endDate:=MustBeOnOrBefore, _
+        StartDate:=MustBeAfter, _
+        EndDate:=MustBeOnOrBefore, _
         helpTitle:=columnName, _
         helpMessage:=InputTooltip
     
@@ -120,8 +120,8 @@ Private Sub Class_Initialize()
     CallStack.EnterRoutine "DateRestriction.Class_Initialize"
     
     AllowEmpty = True
-    MustBeAfter = Constants.MidasStartDate
-    MustBeOnOrBefore = DateAdd("d", -1, Constants.MidasEndDate)
+    MustBeAfter = Constants.StartDate
+    MustBeOnOrBefore = DateAdd("d", -1, Constants.EndDate)
     InputTooltip = ""
     columnName = ""
     AllowEmpty = True

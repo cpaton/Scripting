@@ -10,38 +10,19 @@ Option Explicit
 
 Public Const LookupSheetName As String = "Lookups"
 Public Const BankCodesRangeName As String = "BankCodes"
-Public Const BoxCodesRangeName As String = "BoxCodes"
-Public Const IsoCodesRangeName As String = "IsoCodes"
-Public Const OwnersRangeName As String = "Owners"
-Public Const ReportingDateConversionTypesRangeName As String = "ConversionTypes"
-Public Const DisclosureLevelsRangeName As String = "DisclosureLevels"
-Public Const DenominationRangeName As String = "Denominations"
+
 
 Private Enum LookupColumns
     LookupColumns_BankCodes = 1
-    LookupColumns_BoxCodes = 3
-    LookupColumns_IsoCodes = 5
-    LookupColumns_Owners = 7
-    LookupColumns_DisclosureLevels = 9
-    LookupColumns_ConversionTypes = 11
-    LookupColumns_Denominations = 13
 End Enum
 
 Public Sub RefreshLookupValues()
     On Error GoTo Catch
     CallStack.EnterRoutine "Lookups.RefreshLookupValues"
     
-    Dim lookupValues As LookupDetails
+    Dim db As DatabaseResult
     
-    Set lookupValues = LookupsDA.GetLookupValues()
-    
-    RefreshLookup BankCodesRangeName, LookupColumns_BankCodes, lookupValues.BankCodes
-    RefreshLookup BoxCodesRangeName, LookupColumns_BoxCodes, lookupValues.BoxCodes
-    RefreshLookup IsoCodesRangeName, LookupColumns_IsoCodes, lookupValues.IsoCodes
-    RefreshLookup OwnersRangeName, LookupColumns_Owners, lookupValues.Owners
-    RefreshLookup ReportingDateConversionTypesRangeName, LookupColumns_ConversionTypes, lookupValues.DateConversionTypes
-    RefreshLookup DisclosureLevelsRangeName, LookupColumns_DisclosureLevels, lookupValues.DisclosureLevels
-    RefreshLookup DenominationRangeName, LookupColumns_Denominations, lookupValues.Denominations
+    RefreshLookup BankCodesRangeName, LookupColumns_BankCodes, db
     
 ExitBlock:
     On Error Resume Next

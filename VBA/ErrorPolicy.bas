@@ -67,14 +67,14 @@ Public Function HandleError(errorCode As Long, errorDescription As String, locat
     Transaction.RollbackIfThereIsAnActiveTransaction
     Progress.EnsureHidden
     
-    MsgBox "Unhandled error.  Please contact MIDAS support." & _
+    MsgBox "Unhandled error.  Please contact support." & _
         vbCrLf & vbCrLf & vbCrLf & _
         "Location:" & vbTab & location & vbCrLf & _
         "Message:" & vbTab & errorDescription & vbCrLf & _
         "Code:" & vbTab & errorCode & vbCrLf & _
         "Call Stack:" & vbCrLf & vbTab & currentCallStack, _
         Buttons:=vbCritical, _
-        title:=Constants.GenericMessageBoxTitle
+        title:="Message"
         
     Application.Cursor = xlDefault
     HandleError = ErrorPolicy.StopExecution

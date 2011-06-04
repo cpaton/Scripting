@@ -14,6 +14,7 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+
 '
 ' frmWorking
 '
@@ -30,7 +31,7 @@ Public Sub Initialise(title As String, task As String, initialProgress As String
     On Error GoTo Catch
     CallStack.EnterRoutine "frmWorking.ReportProgress"
     
-    Caption = title
+    caption = title
     lblTask = task
     lblProgress = initialProgress
     lastProgressUpdate = Now()

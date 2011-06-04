@@ -2,14 +2,14 @@ Attribute VB_Name = "SourceControl"
 '
 ' Module SourceControl
 '
-' Only used during development of the loader spreadsheet where the routine ExtractCode
+' Only used during development where the routine ExtractCode
 ' is run manually when code is ready to be checked into source control.  It extracts
 ' the source code from each of the modules into a file with the modules name into
 ' the same directory as the workbook.  These individual files should then be checked
 ' into source control.  Having individual files ensures history information is built
-' up in TFS
+' up
 '
-' Before making changes to the spreadsheet the entire Excel Loader directory should be
+' Before making changes to the spreadsheet the entire directory should be
 ' checked out.  When the changes are complete the ExtractCode macro should be run.  After
 ' that any files that have not changed should have their checkout undone so that they
 ' are not included in the changeset. This can be done automatically using the Team
@@ -227,14 +227,14 @@ Public Sub CompileCode()
     Next toolbar
     
     For Each menu In menus.Controls
-        If (UCase(Replace(menu.Caption, "&", "")) = "DEBUG") Then
+        If (UCase(Replace(menu.caption, "&", "")) = "DEBUG") Then
             Set debugMenu = menu
             Exit For
         End If
     Next
     
     For Each menuItem In debugMenu.Controls
-        If (UCase(Replace(menuItem.Caption, "&", "")) = "COMPILE VBAPROJECT") Then
+        If (UCase(Replace(menuItem.caption, "&", "")) = "COMPILE VBAPROJECT") Then
             Set compileMenuItem = menuItem
             Exit For
         End If

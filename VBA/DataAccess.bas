@@ -9,8 +9,7 @@ Attribute VB_Name = "DataAccess"
 ' This module manages a single connection to the Oralce database that is opened
 ' on first demand and closed when the workbook closes.  Connection to the
 ' Oracle back end is made using the Oracle Proivder for OLE DB using integrated
-' security.  All connections to MIDAS are automatically set to the Analyst
-' database role
+' security.
 '
 
 Option Explicit

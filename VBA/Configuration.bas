@@ -8,9 +8,8 @@ Attribute VB_Name = "Configuration"
 '
 ' All configuration values are stored in the hidden configuration worksheet.
 '
-' The parameter values can be optionally "encrypted" so that they are not
-' stored in plain text.  As this is VBA the level of encryption is low
-' and should not be used to store any sensitive information
+' The parameter values can be optionally conveted so that they are not readable
+' This is not encryption and should not be used to store any sensitive information
 '
 
 Option Explicit
@@ -24,7 +23,7 @@ Public Const CoreDataSetIdParameterName As String = "Core Data Definition Id"
 Public Const UserRoleParameterName As String = "User Role"
 Public Const UserRolePasswordParameterName As String = "Role Password"
 
-Public Function GetParameterValue(parameterName As String, Optional encrypted As Boolean = False) As String
+Public Function GetParameterValue(parameterName As String, Optional convert As Boolean = False) As String
     On Error GoTo Catch
     CallStack.EnterRoutine "Configuration.GetParameterValue"
     
@@ -38,7 +37,7 @@ Public Function GetParameterValue(parameterName As String, Optional encrypted As
     End If
     
     parameterValue = parameterCell.offset(0, 1).value
-    If (encrypted) Then
+    If (convert) Then
         parameterValue = Base64.Base64DecodeString(parameterValue)
     End If
     GetParameterValue = parameterValue
@@ -59,7 +58,7 @@ Catch:
     End Select
 End Function
 
-Public Sub SetParameterValue(parameterName As String, parameterValue As Variant, Optional encrypt As Boolean = False)
+Public Sub SetParameterValue(parameterName As String, parameterValue As Variant, Optional convert As Boolean = False)
     On Error GoTo Catch
     CallStack.EnterRoutine "Configuration.SetParameterValue"
 
@@ -73,7 +72,7 @@ Public Sub SetParameterValue(parameterName As String, parameterValue As Variant,
         Set parameterCell = Utility.GetNextEmptyCellInColumn(configurationSheet.Cells(2, 1))
     End If
     
-    If (encrypt) Then
+    If (convert) Then
         parameterValue = Base64.Base64EncodeString(parameterValue)
     End If
     parameterCell.value = parameterName

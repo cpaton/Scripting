@@ -67,7 +67,7 @@ Public Sub DeleteNamedRange(rangeName As String)
     Dim rangeToDelete As Range
     On Error Resume Next
     Set rangeToDelete = ActiveWorkbook.Names(rangeName)
-    rangeToDelete.delete
+    rangeToDelete.Delete
     
 ExitBlock:
     On Error Resume Next
@@ -118,7 +118,7 @@ Public Sub ClearDownSheet(sheet As Worksheet, fromRow As Long)
     Set dataRange = sheet.Range(dataStartCell, sheet.Cells(65536, 255))
     dataRange.ClearContents
     dataRange.ClearComments
-    dataRange.Validation.delete
+    dataRange.Validation.Delete
     dataRange.ClearFormats
     
 ExitBlock:

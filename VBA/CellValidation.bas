@@ -14,8 +14,8 @@ Attribute VB_Name = "CellValidation"
 
 Option Explicit
 
-Public Sub RestrictToDateRange(cellRangeToValidate As Range, Optional startDate As Date = Constants.MidasStartDate, _
-        Optional endDate As Date = Constants.MidasEndDate, Optional helpTitle As String = "", _
+Public Sub RestrictToDateRange(cellRangeToValidate As Range, StartDate As Date, _
+        EndDate As Date, Optional helpTitle As String = "", _
         Optional helpMessage As String = "")
     On Error GoTo Catch
     CallStack.EnterRoutine "CellValidation.RestrictToDateRange"
@@ -23,12 +23,12 @@ Public Sub RestrictToDateRange(cellRangeToValidate As Range, Optional startDate 
     Dim dayAfterLastAllowedDate As Date
     Dim errorMessage As String
     
-    dayAfterLastAllowedDate = DateAdd("d", 1, endDate)
-    errorMessage = "Date must be after " & Format(startDate, "dd-MMM-yyyy") & " and before " & Format(dayAfterLastAllowedDate, "dd-MMM-yyyy")
+    dayAfterLastAllowedDate = DateAdd("d", 1, EndDate)
+    errorMessage = "Date must be after " & Format(StartDate, "dd-MMM-yyyy") & " and before " & Format(dayAfterLastAllowedDate, "dd-MMM-yyyy")
     
     With cellRangeToValidate.Validation
-        .delete
-        .Add xlValidateDate, xlValidAlertStop, xlBetween, startDate, endDate
+        .Delete
+        .Add xlValidateDate, xlValidAlertStop, xlBetween, StartDate, EndDate
         .IgnoreBlank = True
         .InputTitle = helpTitle
         .inputMessage = helpMessage
@@ -63,7 +63,7 @@ Public Sub RestrictTextLength(cellRangeToValidate As Range, maxLength As Integer
     errorMessage = "Must be less than " & maxLength + 1 & " characters."
     
     With cellRangeToValidate.Validation
-        .delete
+        .Delete
         .Add xlValidateTextLength, xlValidAlertStop, xlBetween, 1, maxLength
         .IgnoreBlank = True
         .InputTitle = helpTitle
@@ -107,7 +107,7 @@ Public Sub RestrictToPositiveInteger(cellRangeToValidate As Range, allowZero As 
     End If
     
     With cellRangeToValidate.Validation
-        .delete
+        .Delete
         .Add xlValidateWholeNumber, xlValidAlertStop, xlGreater, lowestAcceptableNumer - 1
         .IgnoreBlank = True
         .InputTitle = helpTitle
@@ -143,7 +143,7 @@ Public Sub RestrictToIntegerRange(cellRangeToValidate As Range, minimum As Long,
     errorMessage = "Must be between " & minimum & " and " & maximum
     
     With cellRangeToValidate.Validation
-        .delete
+        .Delete
         .Add xlValidateWholeNumber, xlValidAlertStop, xlBetween, minimum, maximum
         .IgnoreBlank = True
         .InputTitle = helpTitle
@@ -176,7 +176,7 @@ Public Sub RestrictToYesNo(cellRangeToValidate As Range, Optional helpTitle As S
     CallStack.EnterRoutine "CellValidation.RestrictToYesNo"
     
     With cellRangeToValidate.Validation
-        .delete
+        .Delete
         .Add Type:=xlValidateList, AlertStyle:=xlValidAlertStop, Operator:=xlBetween, Formula1:="Yes, No"
         .IgnoreBlank = True
         .InputTitle = helpTitle
@@ -209,7 +209,7 @@ Public Sub RestrictToLookupRange(cellRangeToValidate As Range, lookupRangeName A
     CallStack.EnterRoutine "CellValidation.RestrictToLookupRange"
     
     With cellRangeToValidate.Validation
-        .delete
+        .Delete
         .Add Type:=xlValidateList, AlertStyle:=xlValidAlertStop, Operator:=xlBetween, Formula1:="=" & lookupRangeName
         .IgnoreBlank = True
         .InCellDropdown = True

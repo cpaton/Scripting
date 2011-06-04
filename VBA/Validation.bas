@@ -270,7 +270,7 @@ Public Sub ClearMessagesWithCode(messageCode)
     currentRow = FirstValidationRow
     While (Not IsEmpty(validationSheet.Cells(currentRow, ValidationMessageColumns_Message)))
         If (UCase(validationSheet.Cells(currentRow, ValidationMessageColumns_MessageCode).value) = UCase(messageCode)) Then
-            validationSheet.Rows(currentRow).delete xlShiftUp
+            validationSheet.Rows(currentRow).Delete xlShiftUp
         Else
             currentRow = currentRow + 1
         End If
