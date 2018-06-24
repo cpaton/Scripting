@@ -13,16 +13,26 @@ function Exec() {
         [string] $Command,
         # Additional exit codes other than 0 that should not trigger an exception to be thrown
         [Parameter( Position = 3, Mandatory = $false )]
-        [array] $IgnoreExitCodes = $(@())
+        [array] $IgnoreExitCodes = $(@()),
+        # Values which should be masked and not included in command output
+        [Parameter(Mandatory = $false)]
+        [array]
+        $MaskedValues = $(@())
     )
 
-    Write-Verbose $Command
+    $safeCommand  = $Command
+    foreach ($maskValue in $MaskedValues)
+    {
+        $safeCommand = $safeCommand.Replace($maskValue, "*****")
+    }
+
+    Write-Verbose $safeCommand
     if ( $PSCmdlet.ShouldProcess($Description, "Execute")) {
         Invoke-Expression $Command
 
         $exitCode = $LASTEXITCODE
         if ( ( $exitCode -ne 0 ) -and ( $IgnoreExitCodes -notcontains $exitCode ) ) {
-            Write-Host $Command
+            Write-Host $safeCommand
             throw ( "Command failed ({0}). {1}" -f $exitCode, $Description )
         }
     }
