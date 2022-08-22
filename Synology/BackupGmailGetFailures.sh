@@ -1,0 +1,46 @@
+cd /var/services/homes/admin
+/volume1/Data/Backup/GMail/GMVault/gmvault_env_dsm6/bin/activate
+
+sh /volume1/Data/Backup/GMail/GMVault/gmvault_env_dsm6/bin/gmvault sync -t custom -c no --imap-req "UID 3344" -d /volume1/Data/Backup/GMail/craigpaton@gmail.com/ craigpaton@gmail.com >>  /volume1/Data/log.txt
+sh /volume1/Data/Backup/GMail/GMVault/gmvault_env_dsm6/bin/gmvault sync -t custom -c no --imap-req "UID 3350" -d /volume1/Data/Backup/GMail/craigpaton@gmail.com/ craigpaton@gmail.com >>  /volume1/Data/log.txt
+sh /volume1/Data/Backup/GMail/GMVault/gmvault_env_dsm6/bin/gmvault sync -t custom -c no --imap-req "UID 3567" -d /volume1/Data/Backup/GMail/craigpaton@gmail.com/ craigpaton@gmail.com >>  /volume1/Data/log.txt
+sh /volume1/Data/Backup/GMail/GMVault/gmvault_env_dsm6/bin/gmvault sync -t custom -c no --imap-req "UID 4796" -d /volume1/Data/Backup/GMail/craigpaton@gmail.com/ craigpaton@gmail.com >>  /volume1/Data/log.txt
+sh /volume1/Data/Backup/GMail/GMVault/gmvault_env_dsm6/bin/gmvault sync -t custom -c no --imap-req "UID 5072" -d /volume1/Data/Backup/GMail/craigpaton@gmail.com/ craigpaton@gmail.com >>  /volume1/Data/log.txt
+sh /volume1/Data/Backup/GMail/GMVault/gmvault_env_dsm6/bin/gmvault sync -t custom -c no --imap-req "UID 5967" -d /volume1/Data/Backup/GMail/craigpaton@gmail.com/ craigpaton@gmail.com >>  /volume1/Data/log.txt
+sh /volume1/Data/Backup/GMail/GMVault/gmvault_env_dsm6/bin/gmvault sync -t custom -c no --imap-req "UID 17096" -d /volume1/Data/Backup/GMail/craigpaton@gmail.com/ craigpaton@gmail.com >>  /volume1/Data/log.txt
+sh /volume1/Data/Backup/GMail/GMVault/gmvault_env_dsm6/bin/gmvault sync -t custom -c no --imap-req "UID 48956" -d /volume1/Data/Backup/GMail/craigpaton@gmail.com/ craigpaton@gmail.com >>  /volume1/Data/log.txt
+sh /volume1/Data/Backup/GMail/GMVault/gmvault_env_dsm6/bin/gmvault sync -t custom -c no --imap-req "UID 62888" -d /volume1/Data/Backup/GMail/craigpaton@gmail.com/ craigpaton@gmail.com >>  /volume1/Data/log.txt
+sh /volume1/Data/Backup/GMail/GMVault/gmvault_env_dsm6/bin/gmvault sync -t custom -c no --imap-req "UID 65187" -d /volume1/Data/Backup/GMail/craigpaton@gmail.com/ craigpaton@gmail.com >>  /volume1/Data/log.txt
+sh /volume1/Data/Backup/GMail/GMVault/gmvault_env_dsm6/bin/gmvault sync -t custom -c no --imap-req "UID 70679" -d /volume1/Data/Backup/GMail/craigpaton@gmail.com/ craigpaton@gmail.com >>  /volume1/Data/log.txt
+sh /volume1/Data/Backup/GMail/GMVault/gmvault_env_dsm6/bin/gmvault sync -t custom -c no --imap-req "UID 77942" -d /volume1/Data/Backup/GMail/craigpaton@gmail.com/ craigpaton@gmail.com >>  /volume1/Data/log.txt
+sh /volume1/Data/Backup/GMail/GMVault/gmvault_env_dsm6/bin/gmvault sync -t custom -c no --imap-req "UID 87292" -d /volume1/Data/Backup/GMail/craigpaton@gmail.com/ craigpaton@gmail.com >>  /volume1/Data/log.txt
+sh /volume1/Data/Backup/GMail/GMVault/gmvault_env_dsm6/bin/gmvault sync -t custom -c no --imap-req "UID 98359" -d /volume1/Data/Backup/GMail/craigpaton@gmail.com/ craigpaton@gmail.com >>  /volume1/Data/log.txt
+sh /volume1/Data/Backup/GMail/GMVault/gmvault_env_dsm6/bin/gmvault sync -t custom -c no --imap-req "UID 115008" -d /volume1/Data/Backup/GMail/craigpaton@gmail.com/ craigpaton@gmail.com >>  /volume1/Data/log.txt
+sh /volume1/Data/Backup/GMail/GMVault/gmvault_env_dsm6/bin/gmvault sync -t custom -c no --imap-req "UID 120398" -d /volume1/Data/Backup/GMail/craigpaton@gmail.com/ craigpaton@gmail.com >>  /volume1/Data/log.txt
+sh /volume1/Data/Backup/GMail/GMVault/gmvault_env_dsm6/bin/gmvault sync -t custom -c no --imap-req "UID 121878" -d /volume1/Data/Backup/GMail/craigpaton@gmail.com/ craigpaton@gmail.com >>  /volume1/Data/log.txt
+sh /volume1/Data/Backup/GMail/GMVault/gmvault_env_dsm6/bin/gmvault sync -t custom -c no --imap-req "UID 122784" -d /volume1/Data/Backup/GMail/craigpaton@gmail.com/ craigpaton@gmail.com >>  /volume1/Data/log.txt
+sh /volume1/Data/Backup/GMail/GMVault/gmvault_env_dsm6/bin/gmvault sync -t custom -c no --imap-req "UID 129318" -d /volume1/Data/Backup/GMail/craigpaton@gmail.com/ craigpaton@gmail.com >>  /volume1/Data/log.txt
+sh /volume1/Data/Backup/GMail/GMVault/gmvault_env_dsm6/bin/gmvault sync -t custom -c no --imap-req "UID 140281" -d /volume1/Data/Backup/GMail/craigpaton@gmail.com/ craigpaton@gmail.com >>  /volume1/Data/log.txt
+sh /volume1/Data/Backup/GMail/GMVault/gmvault_env_dsm6/bin/gmvault sync -t custom -c no --imap-req "UID 146431" -d /volume1/Data/Backup/GMail/craigpaton@gmail.com/ craigpaton@gmail.com >>  /volume1/Data/log.txt
+sh /volume1/Data/Backup/GMail/GMVault/gmvault_env_dsm6/bin/gmvault sync -t custom -c no --imap-req "UID 147874" -d /volume1/Data/Backup/GMail/craigpaton@gmail.com/ craigpaton@gmail.com >>  /volume1/Data/log.txt
+sh /volume1/Data/Backup/GMail/GMVault/gmvault_env_dsm6/bin/gmvault sync -t custom -c no --imap-req "UID 150123" -d /volume1/Data/Backup/GMail/craigpaton@gmail.com/ craigpaton@gmail.com >>  /volume1/Data/log.txt
+sh /volume1/Data/Backup/GMail/GMVault/gmvault_env_dsm6/bin/gmvault sync -t custom -c no --imap-req "UID 150600" -d /volume1/Data/Backup/GMail/craigpaton@gmail.com/ craigpaton@gmail.com >>  /volume1/Data/log.txt
+sh /volume1/Data/Backup/GMail/GMVault/gmvault_env_dsm6/bin/gmvault sync -t custom -c no --imap-req "UID 157260" -d /volume1/Data/Backup/GMail/craigpaton@gmail.com/ craigpaton@gmail.com >>  /volume1/Data/log.txt
+sh /volume1/Data/Backup/GMail/GMVault/gmvault_env_dsm6/bin/gmvault sync -t custom -c no --imap-req "UID 160736" -d /volume1/Data/Backup/GMail/craigpaton@gmail.com/ craigpaton@gmail.com >>  /volume1/Data/log.txt
+sh /volume1/Data/Backup/GMail/GMVault/gmvault_env_dsm6/bin/gmvault sync -t custom -c no --imap-req "UID 160930" -d /volume1/Data/Backup/GMail/craigpaton@gmail.com/ craigpaton@gmail.com >>  /volume1/Data/log.txt
+sh /volume1/Data/Backup/GMail/GMVault/gmvault_env_dsm6/bin/gmvault sync -t custom -c no --imap-req "UID 163323" -d /volume1/Data/Backup/GMail/craigpaton@gmail.com/ craigpaton@gmail.com >>  /volume1/Data/log.txt
+sh /volume1/Data/Backup/GMail/GMVault/gmvault_env_dsm6/bin/gmvault sync -t custom -c no --imap-req "UID 170471" -d /volume1/Data/Backup/GMail/craigpaton@gmail.com/ craigpaton@gmail.com >>  /volume1/Data/log.txt
+sh /volume1/Data/Backup/GMail/GMVault/gmvault_env_dsm6/bin/gmvault sync -t custom -c no --imap-req "UID 177881" -d /volume1/Data/Backup/GMail/craigpaton@gmail.com/ craigpaton@gmail.com >>  /volume1/Data/log.txt
+sh /volume1/Data/Backup/GMail/GMVault/gmvault_env_dsm6/bin/gmvault sync -t custom -c no --imap-req "UID 185789" -d /volume1/Data/Backup/GMail/craigpaton@gmail.com/ craigpaton@gmail.com >>  /volume1/Data/log.txt
+sh /volume1/Data/Backup/GMail/GMVault/gmvault_env_dsm6/bin/gmvault sync -t custom -c no --imap-req "UID 191053" -d /volume1/Data/Backup/GMail/craigpaton@gmail.com/ craigpaton@gmail.com >>  /volume1/Data/log.txt
+sh /volume1/Data/Backup/GMail/GMVault/gmvault_env_dsm6/bin/gmvault sync -t custom -c no --imap-req "UID 202977" -d /volume1/Data/Backup/GMail/craigpaton@gmail.com/ craigpaton@gmail.com >>  /volume1/Data/log.txt
+sh /volume1/Data/Backup/GMail/GMVault/gmvault_env_dsm6/bin/gmvault sync -t custom -c no --imap-req "UID 204131" -d /volume1/Data/Backup/GMail/craigpaton@gmail.com/ craigpaton@gmail.com >>  /volume1/Data/log.txt
+sh /volume1/Data/Backup/GMail/GMVault/gmvault_env_dsm6/bin/gmvault sync -t custom -c no --imap-req "UID 222302" -d /volume1/Data/Backup/GMail/craigpaton@gmail.com/ craigpaton@gmail.com >>  /volume1/Data/log.txt
+sh /volume1/Data/Backup/GMail/GMVault/gmvault_env_dsm6/bin/gmvault sync -t custom -c no --imap-req "UID 223690" -d /volume1/Data/Backup/GMail/craigpaton@gmail.com/ craigpaton@gmail.com >>  /volume1/Data/log.txt
+sh /volume1/Data/Backup/GMail/GMVault/gmvault_env_dsm6/bin/gmvault sync -t custom -c no --imap-req "UID 227271" -d /volume1/Data/Backup/GMail/craigpaton@gmail.com/ craigpaton@gmail.com >>  /volume1/Data/log.txt
+sh /volume1/Data/Backup/GMail/GMVault/gmvault_env_dsm6/bin/gmvault sync -t custom -c no --imap-req "UID 227814" -d /volume1/Data/Backup/GMail/craigpaton@gmail.com/ craigpaton@gmail.com >>  /volume1/Data/log.txt
+sh /volume1/Data/Backup/GMail/GMVault/gmvault_env_dsm6/bin/gmvault sync -t custom -c no --imap-req "UID 255517" -d /volume1/Data/Backup/GMail/craigpaton@gmail.com/ craigpaton@gmail.com >>  /volume1/Data/log.txt
+sh /volume1/Data/Backup/GMail/GMVault/gmvault_env_dsm6/bin/gmvault sync -t custom -c no --imap-req "UID 255763" -d /volume1/Data/Backup/GMail/craigpaton@gmail.com/ craigpaton@gmail.com >>  /volume1/Data/log.txt
+sh /volume1/Data/Backup/GMail/GMVault/gmvault_env_dsm6/bin/gmvault sync -t custom -c no --imap-req "UID 257024" -d /volume1/Data/Backup/GMail/craigpaton@gmail.com/ craigpaton@gmail.com >>  /volume1/Data/log.txt
+sh /volume1/Data/Backup/GMail/GMVault/gmvault_env_dsm6/bin/gmvault sync -t custom -c no --imap-req "UID 259542" -d /volume1/Data/Backup/GMail/craigpaton@gmail.com/ craigpaton@gmail.com >>  /volume1/Data/log.txt
+sh /volume1/Data/Backup/GMail/GMVault/gmvault_env_dsm6/bin/gmvault sync -t custom -c no --imap-req "UID 262998" -d /volume1/Data/Backup/GMail/craigpaton@gmail.com/ craigpaton@gmail.com >>  /volume1/Data/log.txt
