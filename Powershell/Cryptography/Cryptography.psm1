@@ -1,6 +1,6 @@
 $ModulePath = $PSScriptRoot
-$DefaultPublicKeyPath = Join-Path -Path $ModulePath -ChildPath "PublicKey.xml"
-$DefaultPrivateKeyPath = Join-Path -Path $ModulePath -ChildPath "PrivateKey.xml"
+$DefaultPublicKeyPath = Join-Path -Path $ModulePath -ChildPath "Home-PublicKey.xml"
+$DefaultPrivateKeyPath = Join-Path -Path $ModulePath -ChildPath "Home-PrivateKey.xml"
 $KeySize = 2048
 
 <#
@@ -26,13 +26,20 @@ Encrypts a file using the given public key file
 #>
 function New-EncryptedFile() {
 	param(
-		[Parameter( Position = 1, Mandatory = $true, ValueFromPipelineByPropertyName = $true )]
+		[Parameter( Position = 1, Mandatory, ValueFromPipelineByPropertyName )]
 		[Alias( "FullName" )]
-		[string] $FileToEncryptPath,
-		[Parameter( Position = 2, Mandatory = $false )]
-		[string] $PublicKeyPath = $( $DefaultPublicKeyPath ),
-		[Parameter( Position = 3, Mandatory = $false )]
-		[string] $EncryptedFilePath
+		[string]
+		$FileToEncryptPath,
+		[Parameter( Position = 2 )]
+		[string]
+		$PublicKeyPath = $( $DefaultPublicKeyPath ),
+		[Parameter( Position = 3 )]
+		[string]
+		$EncryptedFilePath,
+		# Whether to base64 encode the encrypted file contents
+		[Parameter()]
+		[switch]
+		$Base64
 	)
 
 	if ( -not ( Test-Path -Path $FileToEncryptPath ) ) {
@@ -42,8 +49,8 @@ function New-EncryptedFile() {
 
 	if ( [System.String]::IsNullOrEmpty( $EncryptedFilePath ) ) {
 		$EncryptedFilePath = "$FileToEncryptPath.encrypted"
-		Write-Host "Encrypting file to $EncryptedFilePath"
 	}
+	Write-Host "Encrypting file to $EncryptedFilePath"
 
 	#
 	# Setup the symetric encrption that will be used to encrypt the file contents
@@ -83,6 +90,14 @@ function New-EncryptedFile() {
 		$encryptionStream.Dispose()
 	}
 
+	if ($Base64)
+	{
+		Write-Host "Converting contents to base64"
+		$encryptedBytes = [System.IO.File]::ReadAllBytes( $EncryptedFilePath )
+		$base64String = [System.Convert]::ToBase64String( $encryptedBytes )
+		Set-Content $EncryptedFilePath -Value $base64String -NoNewline -Encoding ascii
+	}
+
 	return Get-ChildItem -Path $EncryptedFilePath
 }
 
@@ -94,12 +109,21 @@ function New-DecryptedFile() {
 	param(
 		[Parameter( Position = 1, Mandatory = $true, ValueFromPipelineByPropertyName = $true )]
 		[Alias( "FullName" )]
-		[string] $FileToDecryptPath,
+		[string]
+		$FileToDecryptPath,
 		[Parameter( Position = 2, Mandatory = $false )]
-		[string] $PrivateKeyPath = $( $DefaultPrivateKeyPath ),
+		[string]
+		$PrivateKeyPath = $( $DefaultPrivateKeyPath ),
 		[Parameter( Position = 3, Mandatory = $false )]
-		[string] $DecryptedFilePath
+		[string]
+		$DecryptedFilePath,
+		# Specify to denote the encrypted file is encoded in base64
+		[Parameter()]
+		[switch]
+		$Base64
 	)
+
+	$ErrorActionPreference = "Stop"
 
 	if ( -not ( Test-Path -Path $FileToDecryptPath ) ) {
 		Write-Error "Cannot find the file that has been requested to be decrypted <$FileToDecryptPath>"
@@ -110,8 +134,8 @@ function New-DecryptedFile() {
 		$DecryptedFilePath = Join-Path `
 			-Path $( Split-Path -Path $FileToDecryptPath )`
 			-ChildPath $( [System.IO.Path]::GetFileNameWithoutExtension( $FileToDecryptPath ) + ".decrypted" )
-	    Write-Host "Decrypting file to $DecryptedFilePath"
 	}
+	Write-Host "Decrypting file to $DecryptedFilePath"
 
 	$assymetricCryptoService = Get-AssymetricCryptoService $PrivateKeyPath
 	$encryptedDataSize = $assymetricCryptoService.KeySize / 8;
@@ -119,7 +143,17 @@ function New-DecryptedFile() {
 	#
 	# Get the data to decrypt
 	#
-	$dataToDecrtyptRawBytes = [System.IO.File]::ReadAllBytes( $FileToDecryptPath )
+	if ($Base64)
+	{
+		$base64EncryptedString = Get-Content -Path $FileToDecryptPath -Raw -Encoding ascii
+		$dataToDecrtyptRawBytes = [System.Convert]::FromBase64String($base64EncryptedString)
+	}
+	else
+	{
+		$dataToDecrtyptRawBytes = [System.IO.File]::ReadAllBytes( $FileToDecryptPath )
+	}
+
+	# From the file contents extract the symetric keys used to encrypt the data
 	$encryptedSymetricEncryptionKey = $dataToDecrtyptRawBytes[0..( $encryptedDataSize - 1)]
 	$encryptedSymetricEncryptionIV = $dataToDecrtyptRawBytes[$encryptedDataSize..( ( 2 * $encryptedDataSize ) - 1 )]
 	$numberOfPaddingBytesAddedByEncryptionAlgorithm = [System.Convert]::ToInt32( $dataToDecrtyptRawBytes[( 2 * $encryptedDataSize )] )
