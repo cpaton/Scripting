@@ -42,63 +42,84 @@ function New-EncryptedFile() {
 		$Base64
 	)
 
-	if ( -not ( Test-Path -Path $FileToEncryptPath ) ) {
-		Write-Error "Cannot find the file that has been requested to be encrypted <$FileToEncryptPath>"
-		return
-	}
+	$ErrorActionPreference = "Stop"
 
-	if ( [System.String]::IsNullOrEmpty( $EncryptedFilePath ) ) {
-		$EncryptedFilePath = "$FileToEncryptPath.encrypted"
-	}
-	Write-Host "Encrypting file to $EncryptedFilePath"
-
-	#
-	# Setup the symetric encrption that will be used to encrypt the file contents
-	#
-	$symetricCryptoService = Get-SymetricCryptoService
-	$symetricCryptoService.GenerateKey()
-	$symetricCryptoService.GenerateIV()
-
-	#
-	# Store the Key and Salt values for the symetric encryption that will be used to encrypt
-	# the file into the file encrypted using the public key
-	#
-	$assymetricCryptoService = Get-AssymetricCryptoService $PublicKeyPath
-	$assymetricCryptoService.Encrypt( $symetricCryptoService.Key, $true ) |
-		Set-Content -LiteralPath $EncryptedFilePath -AsByteStream
-	$assymetricCryptoService.Encrypt( $symetricCryptoService.IV, $true ) |
-		Add-Content -LiteralPath $EncryptedFilePath -AsByteStream
-
-	#
-	# Encrypt the file contents using the symetric encryption algorithm
-	#
-	$dataToEncrypt = [System.IO.File]::ReadAllBytes( $FileToEncryptPath )
-	$numberOfPaddingBytesAddedByEncryptionAlgorithm = ( 8 - ( $dataToEncrypt.Length % 8 ) )
-	Write-Host "Padding $($numberOfPaddingBytesAddedByEncryptionAlgorithm)"
-	$encryptor = $symetricCryptoService.CreateEncryptor()
-	$encryptedFileStream = New-Object System.IO.FileStream( $EncryptedFilePath, [System.IO.FileMode]::Open, [System.IO.FileAccess]::Write )
-	$encryptedFileStream.Seek( 0, [System.IO.SeekOrigin]::End ) | Out-Null
-	$encryptedFileStream.WriteByte( [System.Convert]::ToByte( $numberOfPaddingBytesAddedByEncryptionAlgorithm ) )
-	$encryptionStream = New-Object System.Security.Cryptography.CryptoStream( $encryptedFileStream, $encryptor, [System.Security.Cryptography.CryptoStreamMode]::Write )
-
-	try {
-		$encryptionStream.Write( $dataToEncrypt, 0, $dataToEncrypt.Length )
-		$encryptionStream.Flush()
-		$encryptionStream.Close()
-	}
-	finally {
-		$encryptionStream.Dispose()
-	}
-
-	if ($Base64)
+	$cleanupActions = @()
+	try
 	{
-		Write-Host "Converting contents to base64"
-		$encryptedBytes = [System.IO.File]::ReadAllBytes( $EncryptedFilePath )
-		$base64String = [System.Convert]::ToBase64String( $encryptedBytes )
-		Set-Content $EncryptedFilePath -Value $base64String -NoNewline -Encoding ascii
-	}
+		if ( -not ( Test-Path -Path $FileToEncryptPath ) ) {
+			Write-Error "Cannot find the file that has been requested to be encrypted <$FileToEncryptPath>"
+			return
+		}
 
-	return Get-ChildItem -Path $EncryptedFilePath
+		$toEncrypt = Get-Item $FileToEncryptPath
+		if ($toEncrypt.PSIsContainer)
+		{
+			Write-Host "Input is a folder, creating temporary ZIP archive"
+			$folderPath = $FileToEncryptPath
+			$temporaryZipPath = "$($FileToEncryptPath).zip"
+			$FileToEncryptPath = $temporaryZipPath
+			Compress-Archive -Path $folderPath -DestinationPath $FileToEncryptPath -Force
+			$cleanupActions += { Remove-Item -Path $temporaryZipPath }
+		}
+
+		if ( [System.String]::IsNullOrEmpty( $EncryptedFilePath ) ) {
+			$EncryptedFilePath = "$FileToEncryptPath.encrypted"
+		}
+		Write-Host "Encrypting to $EncryptedFilePath"
+
+		#
+		# Setup the symetric encrption that will be used to encrypt the file contents
+		#
+		$symetricCryptoService = Get-SymetricCryptoService
+		$symetricCryptoService.GenerateKey()
+		$symetricCryptoService.GenerateIV()
+
+		#
+		# Store the Key and Salt values for the symetric encryption that will be used to encrypt
+		# the file into the file encrypted using the public key
+		#
+		$assymetricCryptoService = Get-AssymetricCryptoService $PublicKeyPath
+		$assymetricCryptoService.Encrypt( $symetricCryptoService.Key, $true ) |
+			Set-Content -LiteralPath $EncryptedFilePath -AsByteStream
+		$assymetricCryptoService.Encrypt( $symetricCryptoService.IV, $true ) |
+			Add-Content -LiteralPath $EncryptedFilePath -AsByteStream
+
+		#
+		# Encrypt the file contents using the symetric encryption algorithm
+		#
+		$dataToEncrypt = [System.IO.File]::ReadAllBytes( $FileToEncryptPath )
+		$numberOfPaddingBytesAddedByEncryptionAlgorithm = ( 8 - ( $dataToEncrypt.Length % 8 ) )
+		Write-Host "Padding $($numberOfPaddingBytesAddedByEncryptionAlgorithm)"
+		$encryptor = $symetricCryptoService.CreateEncryptor()
+		$encryptedFileStream = New-Object System.IO.FileStream( $EncryptedFilePath, [System.IO.FileMode]::Open, [System.IO.FileAccess]::Write )
+		$encryptedFileStream.Seek( 0, [System.IO.SeekOrigin]::End ) | Out-Null
+		$encryptedFileStream.WriteByte( [System.Convert]::ToByte( $numberOfPaddingBytesAddedByEncryptionAlgorithm ) )
+		$encryptionStream = New-Object System.Security.Cryptography.CryptoStream( $encryptedFileStream, $encryptor, [System.Security.Cryptography.CryptoStreamMode]::Write )
+
+		try {
+			$encryptionStream.Write( $dataToEncrypt, 0, $dataToEncrypt.Length )
+			$encryptionStream.Flush()
+			$encryptionStream.Close()
+		}
+		finally {
+			$encryptionStream.Dispose()
+		}
+
+		if ($Base64)
+		{
+			Write-Host "Converting contents to base64"
+			$encryptedBytes = [System.IO.File]::ReadAllBytes( $EncryptedFilePath )
+			$base64String = [System.Convert]::ToBase64String( $encryptedBytes )
+			Set-Content $EncryptedFilePath -Value $base64String -NoNewline -Encoding ascii
+		}
+
+		return Get-ChildItem -Path $EncryptedFilePath
+	}
+	finally
+	{
+		$cleanupActions | ForEach-Object { $_.Invoke() }
+	}
 }
 
 <#
@@ -107,14 +128,14 @@ Decrypts a file using the given private key
 #>
 function New-DecryptedFile() {
 	param(
-		[Parameter( Position = 1, Mandatory = $true, ValueFromPipelineByPropertyName = $true )]
+		[Parameter( Position = 1, Mandatory, ValueFromPipelineByPropertyName )]
 		[Alias( "FullName" )]
 		[string]
 		$FileToDecryptPath,
-		[Parameter( Position = 2, Mandatory = $false )]
+		[Parameter( Position = 2 )]
 		[string]
 		$PrivateKeyPath = $( $DefaultPrivateKeyPath ),
-		[Parameter( Position = 3, Mandatory = $false )]
+		[Parameter( Position = 3 )]
 		[string]
 		$DecryptedFilePath,
 		# Specify to denote the encrypted file is encoded in base64
